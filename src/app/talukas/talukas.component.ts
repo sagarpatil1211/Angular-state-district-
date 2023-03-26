@@ -1,19 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from './api.service';
+import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../api.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-talukas',
+  templateUrl: './talukas.component.html',
+  styleUrls: ['./talukas.component.css']
 })
-export class AppComponent implements OnInit {
+export class TalukasComponent implements OnInit {
 
   formdata: any;
   datas: any;
   id = "";
-  constructor(private api: ApiService) {
+  districtid:any
+  constructor(private api: ApiService, route:ActivatedRoute) {
 
+    this.districtid = route.snapshot.paramMap.get('districtid');
+    // console.log(this.districtid);
+    
   }
 
   ngOnInit(): void {
@@ -22,16 +27,18 @@ export class AppComponent implements OnInit {
   }
   load() {
     this.id = "";
+    this.api.get("talukas/" + this.districtid).subscribe((result: any) => {
+      // console.log(result);
+      this.datas = result.data
+    });
     this.formdata = new FormGroup({
       name: new FormControl("", Validators.compose([Validators.required])),
+      districtid: new FormControl(this.districtid),
 
 
     })
 
-    this.api.get("states").subscribe((result: any) => {
-      // console.log(result);
-      this.datas = result.data
-    });
+ 
   }
 
   reset(){
@@ -41,7 +48,7 @@ export class AppComponent implements OnInit {
   edit(id: any) {
     this.id = id;
     // console.log(id);
-    this.api.get("states/" + id).subscribe((result: any) => {
+    this.api.get("talukas/"+this.districtid+ "/" + id).subscribe((result: any) => {
       // console.log(result);
 
       this.formdata.patchValue({
@@ -55,7 +62,7 @@ export class AppComponent implements OnInit {
     // console.log(data);
 
     if (this.id != "") {
-      this.api.put("states/" + this.id, data).subscribe((result: any) => {
+      this.api.put("talukas/" + this.id, data).subscribe((result: any) => {
         // console.log(result);
         
         if (result.status == "success") {
@@ -66,7 +73,7 @@ export class AppComponent implements OnInit {
     }
 
     else{
-      this.api.post("states", data).subscribe((result: any) => {
+      this.api.post("talukas", data).subscribe((result: any) => {
         if (result.status == "success") {
           this.load();
   
@@ -76,7 +83,7 @@ export class AppComponent implements OnInit {
   }
 
   delete(id:any){
-    this.api.delete("states/" + id).subscribe((result:any)=>{
+    this.api.delete("talukas/" + id).subscribe((result:any)=>{
       // console.log(result);
       if(result.status == "success"){
         this.load();
@@ -90,4 +97,3 @@ export class AppComponent implements OnInit {
 
 
 }
-

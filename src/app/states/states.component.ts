@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from './api.service';
+import { ApiService } from '../api.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-states',
+  templateUrl: './states.component.html',
+  styleUrls: ['./states.component.css']
 })
-export class AppComponent implements OnInit {
+export class StatesComponent implements OnInit {
 
   formdata: any;
   datas: any;
@@ -27,6 +27,11 @@ export class AppComponent implements OnInit {
 
 
     })
+
+    this.api.get("states").subscribe((result: any) => {
+      // console.log(result);
+      this.datas = result.data
+    });
 
     this.api.get("states").subscribe((result: any) => {
       // console.log(result);
@@ -90,4 +95,3 @@ export class AppComponent implements OnInit {
 
 
 }
-

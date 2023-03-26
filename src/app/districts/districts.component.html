@@ -1,0 +1,48 @@
+<div class="container mt-2">
+    <div class="row">
+      <form [formGroup]="formdata" (ngSubmit)="submit(formdata.value)">
+        <div class="row">
+        <div class="mb-3 col-md-3">
+          <label for="1" class="form-label">Enter District</label>
+          <input type="text" class="form-control" id="1" formControlName="name">
+        </div>
+        <div class="mb-3 col-md-3">
+          <!-- <label for="1" class="form-label">Enter State</label> -->
+          <input type="hidden" class="form-control" id="1" formControlName="stateid">
+        </div>
+      </div>
+      
+     
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button " class="btn btn-danger ms-2" (click)="reset()">Cancel</button>
+      </form>
+      
+    </div>
+  
+    <div class="col-lg-8 mx-auto" >
+    <h3>Districts</h3>
+
+      <table class="table table-bordered">
+         <thead>
+          <tr>
+              <th class="text-center">Sr.No.</th>
+              <th class="text-center">Name</th>
+              <th class="text-center">Edit</th>
+              <th class="text-center">Delete</th>
+              <th class="text-center">Talukas</th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr *ngFor="let data of datas, let i = index ">
+              <td class="text-center">{{ i+1 }}</td>
+              <td class="text-center">{{ data.name }}</td>
+              <td class="text-center"> <button class="btn btn-outline-primary" (click)="edit(data._id)">Edit</button></td>
+              <td class="text-center"> <button class="btn btn-outline-danger" (click)="delete(data._id)">Delete</button></td>
+              <td class="text-center"> <button class="btn btn-outline-success" routerLink="/talukas/{{data._id}}">Go</button></td>
+              
+          </tr>
+         </tbody>
+      </table>
+  </div>
+  </div>
+
