@@ -20,7 +20,11 @@
     </div>
   
     <div class="col-lg-8 mx-auto" >
-    <h3>Districts</h3>
+      <div class="d-flex justify-content-between mb-3">
+        <h3 *ngIf="state">Districts : {{state.name}}</h3>
+        <button class="btn btn-primary" routerLink="/">Back</button>
+
+      </div>
 
       <table class="table table-bordered">
          <thead>

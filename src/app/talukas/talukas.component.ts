@@ -14,6 +14,7 @@ export class TalukasComponent implements OnInit {
   datas: any;
   id = "";
   districtid:any
+  district:any;
   constructor(private api: ApiService, route:ActivatedRoute) {
 
     this.districtid = route.snapshot.paramMap.get('districtid');
@@ -27,9 +28,16 @@ export class TalukasComponent implements OnInit {
   }
   load() {
     this.id = "";
+    // get all talukas
     this.api.get("talukas/" + this.districtid).subscribe((result: any) => {
       // console.log(result);
       this.datas = result.data
+    });
+
+    // get district
+    this.api.get("districts/0/" + this.districtid).subscribe((result: any) => {
+      // console.log(result);
+      this.district = result.data
     });
     this.formdata = new FormGroup({
       name: new FormControl("", Validators.compose([Validators.required])),

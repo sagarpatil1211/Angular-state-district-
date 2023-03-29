@@ -14,9 +14,11 @@ export class DistrictsComponent implements OnInit {
   datas: any;
   id = "";
   stateid:any
+  state:any;
   constructor(private api: ApiService, route:ActivatedRoute) {
     this.stateid = route.snapshot.paramMap.get('stateid');
     // console.log(this.stateid);
+
     
   }
 
@@ -29,6 +31,11 @@ export class DistrictsComponent implements OnInit {
     this.formdata = new FormGroup({
       name: new FormControl("", Validators.compose([Validators.required])),
       stateid: new FormControl(this.stateid)
+    })
+
+    this.api.get("states/"+ this.stateid).subscribe((result:any)=>{
+      // console.log(result);
+      this.state = result.data 
     })
 
     this.api.get("districts/" + this.stateid).subscribe((result: any) => {

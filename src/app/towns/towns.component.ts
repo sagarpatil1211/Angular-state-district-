@@ -14,6 +14,7 @@ export class TownsComponent implements OnInit {
   datas: any;
   id = "";
   talukaid:any
+  taluka :any;
   constructor(private api: ApiService, route:ActivatedRoute) {
 
     this.talukaid = route.snapshot.paramMap.get('talukaid');
@@ -30,6 +31,10 @@ export class TownsComponent implements OnInit {
     this.api.get("towns/" + this.talukaid).subscribe((result: any) => {
       // console.log(result);
       this.datas = result.data
+    });
+    this.api.get("talukas/0/" + this.talukaid).subscribe((result: any) => {
+      // console.log(result);
+      this.taluka = result.data
     });
     this.formdata = new FormGroup({
       name: new FormControl("", Validators.compose([Validators.required])),
